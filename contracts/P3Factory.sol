@@ -16,11 +16,16 @@ contract P3Factory is IUniswapV2Factory {
      *
      * isCreatePair:<bool>
      * - 페어 생성이 열려있는지 여부를 설정합니다.
+     *
+     * diamondAddr : <address>
+     * - 다이아몬드 컨트랙트 주소를 설정합니다.
      */
 
     address public paymentTokenAddress;
+    address public diamondAddr;
     uint public paymentAmount;
     bool public isCreatePair;
+    address public createFeeTo;
 
     modifier isCreatePairCheck() {
         require(isCreatePair, "UniswapV2: PAIR_CREATION_DISABLED");
@@ -48,14 +53,47 @@ contract P3Factory is IUniswapV2Factory {
         return allPairs.length;
     }
 
+    /**
+     *@dev modifier CreatePairCheck 추가 되었습니다.
+     */
     function createPair(
         address tokenA,
         address tokenB
     ) external isCreatePairCheck returns (address pair) {
-        // add payment logic
+        require(tokenA != tokenB, "UniswapV2: IDENTICAL_ADDRESSES");
+        (address token0, address token1) = tokenA < tokenB
+            ? (tokenA, tokenB)
+            : (tokenB, tokenA);
+        require(token0 != address(0), "UniswapV2: ZERO_ADDRESS");
+        require(
+            getPair[token0][token1] == address(0),
+            "UniswapV2: PAIR_EXISTS"
+        ); // single check is sufficient
+        bytes memory bytecode = type(P3Pair).creationCode;
+        bytes32 salt = keccak256(abi.encodePacked(token0, token1));
+        assembly {
+            pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
+        }
+        IUniswapV2Pair(pair).initialize(token0, token1);
+        getPair[token0][token1] = pair;
+        getPair[token1][token0] = pair; // populate mapping in the reverse direction
+        allPairs.push(pair);
+        emit PairCreated(token0, token1, pair, allPairs.length);
+    }
+
+    /**
+     *@dev 다이아몬드 컨트랙트에서 페어를 생성할 때 사용합니다.
+     */
+    function fromDiamondCreatePair(
+        address tokenA,
+        address tokenB,
+        address sender
+    ) external returns (address pair) {
+        require(msg.sender == diamondAddr, "UniswapV2: FORBIDDEN");
+
         IERC20(paymentTokenAddress).transferFrom(
-            msg.sender,
-            feeTo,
+            sender,
+            createFeeTo,
             paymentAmount
         );
 
@@ -90,14 +128,24 @@ contract P3Factory is IUniswapV2Factory {
         feeToSetter = _feeToSetter;
     }
 
+    /**
+     *@dev 추가된 Factory Variable을 설정합니다.
+     */
     function setP3States(
         address _paymentTokenAddress,
         uint _paymentAmount,
-        bool _isCreatePair
+        bool _isCreatePair,
+        address _diamondAddr,
+        address _createFeeTo
     ) external {
-        require(msg.sender == feeToSetter, "UniswapV2: FORBIDDEN");
+        require(
+            msg.sender == feeToSetter || msg.sender == diamondAddr,
+            "UniswapV2: FORBIDDEN"
+        );
         paymentTokenAddress = _paymentTokenAddress;
         paymentAmount = _paymentAmount;
         isCreatePair = _isCreatePair;
+        diamondAddr = _diamondAddr;
+        createFeeTo = _createFeeTo;
     }
 }

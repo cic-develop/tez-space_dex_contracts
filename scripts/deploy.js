@@ -8,22 +8,21 @@ const hre = require("hardhat");
 
 async function main() {
   const wklay = "0x19aac5f612f524b754ca7e7c41cbfa2e981a4432";
-  const factory = "0xAEe29656Ed388ACa4cbb95317E4447024Da9831C";
-  //   const factory = await hre.ethers.deployContract("P3Factory", [
-  //     "0xe34f22cF55db5209bA6546701d408e5F58d8703f",
-  //   ]);
-  //   await factory.waitForDeployment();
 
-  //   console.log(`factory Contract : ${factory.target}\n`);
+  const factory = await hre.ethers.deployContract("P3Factory", [
+    "0xe34f22cF55db5209bA6546701d408e5F58d8703f",
+  ]);
+  await factory.waitForDeployment();
+
+  console.log(`factory Contract : ${factory.target}\n`);
   const router = await hre.ethers.deployContract("P3Router02", [
-    // factory.target,
-    factory,
+    factory.target,
     wklay,
   ]);
   await router.waitForDeployment();
 
   console.log(
-    `factory Contract : ${factory}\nrouter Contract : ${router.target} input : ${factory} ${wklay} \n`
+    `router Contract : ${router.target} input : ${factory.target} ${wklay} \n`
   );
 }
 
@@ -34,8 +33,8 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
+// TEST Deploy
 // factory
-// 0xAEe29656Ed388ACa4cbb95317E4447024Da9831C
+// 0x547fc897e53e241856ac696f38b6ba19ab181031
 // router
-// 0x45dE690c9CA7BA7823A38F5fe3e03baA5C8D8833
-// 0x29c12EdA8870690D91F9ECC9bbe6B9D5f82a44D1
+// 0xB8E8024969562d19bA43B0B464A4a689dB894ed3
