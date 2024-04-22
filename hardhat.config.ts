@@ -42,7 +42,7 @@ const config: HardhatUserConfig = {
       accounts: [process.env.LIVE_PRIV_KEY || ""],
     },
     test: {
-      chainId: 8217,
+      chainId: 1001,
       url: process.env.KLAYTN_NODE_TEST_ENDPOINT,
       accounts: [process.env.TEST_PRIV_KEY || ""],
     },
@@ -63,10 +63,10 @@ const config: HardhatUserConfig = {
       },
       {
         network: "test",
-        chainId: 8217,
+        chainId: 1001,
         urls: {
-          apiURL: process.env.ETHERSCAN_API_URL || "",
-          browserURL: "https://klaytnscope.com",
+          apiURL: process.env.TEST_ETHERSCAN_API_URL || "",
+          browserURL: "https://baobab.klaytnscope.com",
         },
       },
     ],
