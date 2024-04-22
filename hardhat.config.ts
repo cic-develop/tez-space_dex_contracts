@@ -41,6 +41,11 @@ const config: HardhatUserConfig = {
       url: process.env.KLAYTN_NODE_MAIN_ENDPOINT,
       accounts: [process.env.LIVE_PRIV_KEY || ""],
     },
+    cytest: {
+      chainId: 8217,
+      url: process.env.KLAYTN_NODE_MAIN_ENDPOINT,
+      accounts: [process.env.TEST_PRIV_KEY || ""],
+    },
     test: {
       chainId: 1001,
       url: process.env.KLAYTN_NODE_TEST_ENDPOINT,
@@ -50,11 +55,20 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       live: process.env.ETHERSCAN_API_KEY || "",
+      cytest: process.env.ETHERSCAN_API_KEY || "",
       test: process.env.ETHERSCAN_API_KEY || "",
     },
     customChains: [
       {
         network: "live",
+        chainId: 8217,
+        urls: {
+          apiURL: process.env.ETHERSCAN_API_URL || "",
+          browserURL: "https://klaytnscope.com",
+        },
+      },
+      {
+        network: "cytest",
         chainId: 8217,
         urls: {
           apiURL: process.env.ETHERSCAN_API_URL || "",

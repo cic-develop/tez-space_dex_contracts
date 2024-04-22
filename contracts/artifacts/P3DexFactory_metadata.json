@@ -331,10 +331,10 @@
 			]
 		},
 		"contracts/P3DexFactory.sol": {
-			"keccak256": "0x40d7f0ecfefda506a8dced4b2a3965ddc2b5aff379a54a16b1f8e756e8e0cb86",
+			"keccak256": "0x0c61dd87ef538e7d311bd3b38743f999de57f7996c9776516265faad541b87d7",
 			"urls": [
-				"bzz-raw://f2c9d92b44609495374d6ac0dee4d23f72fc76de81f7741e087104ec68965087",
-				"dweb:/ipfs/QmVJ4VPFfh7dvj4d2C2Gak5B1V7te8xPqMaEyNZik8tPmh"
+				"bzz-raw://11e39a024f98016588f8366ae4b83dee13a9ec37e09e13b929f3247f9a99b3a2",
+				"dweb:/ipfs/QmNdbwBfiGT4WxDkEvxsPPJar5vhnY5hH5Vx3aPSCgzzbN"
 			]
 		},
 		"contracts/P3DexPair.sol": {

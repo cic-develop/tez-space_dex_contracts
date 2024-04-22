@@ -362,7 +362,7 @@
 		"evmVersion": "istanbul",
 		"libraries": {},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -383,10 +383,10 @@
 			]
 		},
 		"contracts/P3DexERC20.sol": {
-			"keccak256": "0x861e57e7a58868e5e56a6e5bfd451a0a835fa993990143b56c4c5b45b630609f",
+			"keccak256": "0x73327189fc77ba776a5581ca8f9dfd708298a3f370aed5d76a4b0c1ad0ddcccf",
 			"urls": [
-				"bzz-raw://e6f34bfa965e7fbf21939bc017280a0d60228577e120c00eb5f49b40702f20c8",
-				"dweb:/ipfs/Qme5ac8r6jjRg5n4C7NMGyYmtRMyi3qNbe2z8f1ya3zkMp"
+				"bzz-raw://1685ad48b8b0729d2f57abc00a8329de8cbd7ae56c3255da3696a314feff06c6",
+				"dweb:/ipfs/QmPebJMW7BX6AbjmjGtn8C1YkV4RNz4Nofaw3xWySYyZCD"
 			]
 		}
 	},

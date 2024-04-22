@@ -67,14 +67,15 @@ contract P3DexFactory is IUniswapV2Factory {
         feeToSetter = _feeToSetter;
     }
 
-
-
     // add function
     function setCreateStates(
         bool _isPairCreate,
         address _diamondContract
     ) external {
-        require(msg.sender == feeToSetter || msg.sender == diamondContract, "UniswapV2: FORBIDDEN");
+        require(
+            msg.sender == feeToSetter || msg.sender == diamondContract,
+            "UniswapV2: FORBIDDEN"
+        );
         isPairCreate = _isPairCreate;
         diamondContract = _diamondContract;
     }
